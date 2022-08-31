@@ -57,8 +57,11 @@ defmodule ExSwift.Request do
   @doc "Send request to get new auth token"
   @spec create_token(String.t(), map()) :: {:ok, Response.t()} | {:error, any()}
   def create_token(url, body) do
-    headers = [{"content-type", "application/json"}]
     req_body = Jason.encode!(body)
+    headers = [
+      {"content-type", "application/json"},
+      {"content-length", String.length(req_body)}
+    ]
 
     %Mojito.Request{
       method: :post,
